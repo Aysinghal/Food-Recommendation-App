@@ -1,5 +1,4 @@
-food = {"sabji" : {"aloo gobi": 0, "paneer shimlamirch" : 0, "baingan bhartha": 0}, "dal" : {"chana dal": 0, "black dal": 0, "urad dal" : 0}, "bread" : {"roti" : 0, "naan": 0}}
-
+food = {"sabji" : {"aloo gobi": [0, {"Calories" : 100, "Carbs" : 100, "Protein" : 100, "Fat" : 100}], "paneer shimlamirch" : [0, {"Calories" : 100, "Carbs" : 100, "Protein" : 100, "Fat" : 100}], "baingan bhartha": [0, {"Calories" : 100, "Carbs" : 100, "Protein" : 100, "Fat" : 100}]}, "dal" : {"chana dal": [0, {"Calories" : 100, "Carbs" : 100, "Protein" : 100, "Fat" : 100}], "black dal": [0, {"Calories" : 100, "Carbs" : 100, "Protein" : 100, "Fat" : 100}], "urad dal" : [0, {"Calories" : 100, "Carbs" : 100, "Protein" : 100, "Fat" : 100}]}, "bread" : {"roti" : [0, {"Calories" : 100, "Carbs" : 100, "Protein" : 100, "Fat" : 100}], "naan": [0, {"Calories" : 100, "Carbs" : 100, "Protein" : 100, "Fat" : 100}]}}
 family_list = ["Sanju", "Sukriti", "Vishrut", "Vihaan"]
 
 def ordinal_numbers(i):
@@ -75,12 +74,12 @@ def add_foods(food, family_list):
 
             linked_food_dictionary[categories_list[i]] = food_link_list
 
-    for i in range (0, len(family_list)):a
+    for i in range (0, len(family_list)):
         person_rating = float(input("How much does " + family_list[i] + " like " + food_name + " out of 10 stars: "))
         family_ratings[family_list[i]] = person_rating
 
 
-    food.get(category_chosen)[food_name] = [1, {"calories" : food_nutrients[0], "Carbs" : food_nutrients[1], "Protein" : food_nutrients[2], "Fat" : food_nutrients[3]}, linked_food_dictionary, family_ratings]
+    food.get(category_chosen)[food_name] = [1, {"Calories" : food_nutrients[0], "Carbs" : food_nutrients[1], "Protein" : food_nutrients[2], "Fat" : food_nutrients[3]}, linked_food_dictionary, family_ratings]
     
     print("")
     return food
@@ -91,27 +90,65 @@ def choose_dish(food_list, prob_list):
             return food_list[i]
             break
 
-def alterProb(category_name, food, chosen_food, nutrient_values):
-    chosen_food_dictionary = {}
-    for i in range (0, len(chosen_food)):
-        chosen_food_dictionary[chosen_food[i]] = list(food.get(category_name)[chosen_food][i]][1].values())
-    for i in range (0, len(chosen_food)):
-        for j in range (0, 4):
-            chosen_food_dictionary.get(chosen_food[i])[]
+def alterProb(food_category, food,target):
 
+    print('hi')
+    # chosen_food_dictionary = {}
+    # for i in range (0, len(chosen_food)):
+    #     chosen_food_dictionary[chosen_food[i]] = list(food.get(category_name)[chosen_food][i][1].values())
+    # for i in range (0, len(chosen_food)):
+    #     for j in range (0, 4):
+    #         chosen_food_dictionary.get(chosen_food[i])[]
 
+def set_category_weights(food, nutrient):
+    
+    category_nutrients = {}
+    nutrient_list = ["Calories","Carbs","Protein","Fat"]
+    for i in range(0, len(nutrient_list)):
+        if nutrient == nutrient_list[i]:
+            nutrient_number = i
+            break
+
+    for i in list(food.keys()):
+        category_nutrients[i] = []
+
+    for i in list(food.keys()):
+        nutrient_sum = 0
+        for j in range (0, len(list(food.get(i).keys()))):
+            nutrient_sum += list(food.get(i).get(list(food.get(i).keys())[j])[1].values())[nutrient_number]
+        category_nutrients[i] = [nutrient_sum, len(food.get(i).keys())]
+
+    total_nutrient_sum = 0
+
+    for i in list(category_nutrients.keys()):
+        category_nutrients[i] = [(category_nutrients[i][0]/category_nutrients[i][1])]
+        total_nutrient_sum += category_nutrients[i][0]
+
+    category_weight_list = []
+
+    for i in list(category_nutrients.keys()):
+        category_weight_list.append(category_nutrients.get(i)[0] / total_nutrient_sum)
+
+    return category_weight_list
+    
 def create_weekly_meal():
-    categories_list = list(food.keys())
 
-    for i in range (0, len(categories_list)):
+        for i in range (0, len(categories_list)):
         for j in list(food.get(categories_list[i]).keys()):
             food.get(categories_list[0])[j][0] = 1
-    
 
+    sum_list =  #total sum for each nutrient so far
+    day_number =  #what day it is
+    recommend_list =  #recommended daily intake for each nutrient
+    categories_list = #a list if all the categories
 
+    categories_list = list(food.keys())
+    nutrient_list = ["Calories","Carbs","Protein","Fat"]
 
-
-
-
-
-print(add_foods(food, family_list))
+    for i in range(0,len(nutrient_list)):
+        nutrient_target = recommend_list[i] * day_number - sum_list[i]
+        weights = set_category_weights(food, nutrient_list(i))
+        for j in range(0, len(weights)):
+          category_target = nutrient_target * weights[i]
+          alterProb(categories_list[j])
+        
