@@ -153,4 +153,3 @@ def create_weekly_meal():
         for j in range(0, len(weights)):
           category_target = nutrient_target * weights[i]
           alterProb(categories_list[j])
-        
