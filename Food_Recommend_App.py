@@ -90,15 +90,17 @@ def choose_dish(food_list, prob_list):
             return food_list[i]
             break
 
-def alterProb(food_category, food,target):
+def alterProb(food_nutrient, target, prob, is_calorie):
+    if target < 1:
+        target = 1
+    diff = abs(target - food_nutrient)
+    diff_percent = diff / target
+    if is_calorie:
+        diff_percent *= 2
+    multiplier = 1 - diff_percent
+    return(prob * multi[lier])
+    
 
-    print('hi')
-    # chosen_food_dictionary = {}
-    # for i in range (0, len(chosen_food)):
-    #     chosen_food_dictionary[chosen_food[i]] = list(food.get(category_name)[chosen_food][i][1].values())
-    # for i in range (0, len(chosen_food)):
-    #     for j in range (0, 4):
-    #         chosen_food_dictionary.get(chosen_food[i])[]
 
 def set_category_weights(food, nutrient):
     
@@ -133,7 +135,7 @@ def set_category_weights(food, nutrient):
     
 def create_weekly_meal():
 
-        for i in range (0, len(categories_list)):
+    for i in range (0, len(categories_list)):
         for j in list(food.get(categories_list[i]).keys()):
             food.get(categories_list[0])[j][0] = 1
 
