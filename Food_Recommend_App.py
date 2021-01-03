@@ -98,7 +98,15 @@ def alterProb(food_nutrient, target, prob, is_calorie):
     if is_calorie:
         diff_percent *= 2
     multiplier = 1 - diff_percent
-    return(prob * multi[lier])
+    #return (prob * multiplier)
+    
+def equalizeAverage(l):
+    equalized_list = []
+    average = sum(l) / len(l)
+    for i in range(0, len(l)):
+        equalized_list.append(l[i]/average)
+        
+     
     
 
 
