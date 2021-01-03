@@ -1,11 +1,42 @@
 How to create weekly meal
 
-Average out each category's value for that nutrient, then divide by the sum of averages for that nutrient. This is that category’s weight for that nutrient.
+Average out each category's value for that nutrient, then
+ divide by the sum of averages for that nutrient. This is that
+ category’s weight for that nutrient.
 
-Sum up the total amount of that nutrient eaten so far. Multiply daily recommended nutrient by number of days so far, subtract total nutrients eaten so far, that is todays target. (if target is negative or 0, make it 1)
 
-For each category, multiply the category’s weight by today’s target to get the target for that category. For each dish calculate the absolute value of difference from target, and divide that by the target. Multiply that by the weight for the nutrient, and subtract that from 1. Multiply that by the current probability. That is the new probability.
+Sum up the total amount of that nutrient eaten so far.
+ Multiply daily recommended nutrient by number of days so far,
+ subtract total nutrients eaten so far, that is todays target.
+ (if target is negative or 0, make it 1)
 
-Based on the probabilities, randomly select one of the main courses. Then, randomly select (based on probabilities) one of the linked options for each of the other categories, creating the meal. Add each nutrient value to the total, and repeat for all 7 days of the week. Shuffle the order of the meaks afterward. 
+
+For each category, multiply the category’s weight by today’s
+ target to get the target for that category. For each dish 
+calculate the absolute value of difference from target, and
+ divide that by the target. Multiply that by the weight for
+ the nutrient, and subtract that from 1. Multiply that by the
+ current probability. That is the new probability.
+
+First, calculate everyone’s rating for all items, and equalize
+ them, so that each person’s average rating is one. Then for
+ each dish, calculate the average rating for that dish. 
+Multiply that number by the probabilities of the dishes, to 
+get the new probability. Once a dish has been chosen, subtract
+ each person’s rating for that dish from the average rag of
+ the dish, and subtract that from 1. If it is negative, make 
+it .01. Raise each of that person’s ratings to that numbers
+ power, and once again equalize them to one. Repeat for the
+ next dish to be chosen.  
+
+
+
+Based on the probabilities, randomly select one of the main 
+courses. Then, randomly select (based on probabilities) one of
+ the linked options for each of the other categories, creating
+ the meal. Add each nutrient value to the total, and repeat
+ for all 7 days of the week. Shuffle the order of the meaks 
+afterward. 
+
 
 
