@@ -106,8 +106,35 @@ def equalizeAverage(l):
     for i in range(0, len(l)):
         equalized_list.append(l[i]/average)
         
-     
-    
+   
+def getRatings(food, family_list):
+    ratings = []
+    for i in range(0, len(family_list)):
+        ratings.append([])
+        for j in food:
+            for k in food.get(j):
+                ratings[i].append(food.get(j).get(k)[2].get(family_list[i]))
+    return ratings
+
+def putRatings(food, family_list, ratings):
+    for i in range(0, len(family_list)):
+        for j in food:
+            for k in food.get(j):
+                food.get(j).get(k)[2].get(family_list[i]) = ratings[0]
+                ratings.pop(0)
+    return food
+
+def equalizeRatings(food, family_list):
+
+    ratings = getRatings(food, family_list)
+
+    for i in range(0,len(ratings)):
+        ratings[i] = equalizeAverage(ratings[i])
+    putRatings(food,family_list,ratings)
+
+    pass
+                
+        
 
 
 def set_category_weights(food, nutrient):
