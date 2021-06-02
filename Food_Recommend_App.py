@@ -1,31 +1,33 @@
+import numpy
+
 food = {"sabji" : {"aloo gobi": [0, {"Calories" : 100, "Carbs" : 100, "Protein" : 100, "Fat" : 100}], "paneer shimlamirch" : [0, {"Calories" : 100, "Carbs" : 100, "Protein" : 100, "Fat" : 100}], "baingan bhartha": [0, {"Calories" : 100, "Carbs" : 100, "Protein" : 100, "Fat" : 100}]}, "dal" : {"chana dal": [0, {"Calories" : 100, "Carbs" : 100, "Protein" : 100, "Fat" : 100}], "black dal": [0, {"Calories" : 100, "Carbs" : 100, "Protein" : 100, "Fat" : 100}], "urad dal" : [0, {"Calories" : 100, "Carbs" : 100, "Protein" : 100, "Fat" : 100}]}, "bread" : {"roti" : [0, {"Calories" : 100, "Carbs" : 100, "Protein" : 100, "Fat" : 100}], "naan": [0, {"Calories" : 100, "Carbs" : 100, "Protein" : 100, "Fat" : 100}]}}
 family_list = ["Sanju", "Sukriti", "Vishrut", "Vihaan"]
 
-def ordinal_numbers(i):
+def ordinal_numbers(i): #creates numbered list
     if i == 1:
-        return ("")
+        return ""
     elif i == 2:
-        return (" 2nd")
+        return " 2nd"
     elif i == 3:
-        return (" 3rd")
+        return " 3rd"
     else:
-        return(" " + str(i) + "th ")
+        return " " + str(i) + "th "
 
-def print_list(l):
+def print_list(l): #prints list in nice arrangement with numbers for each option
     for i in range(0, len(l)):
         print(str(i) + " : " + l[i])
 
-def create_family():
+def create_family(): #adds people at the start of the code
     family_list = []
     number_people_family = int(input("How many people are in your family: "))
     for i in range(0, number_people_family):
         family_list.append(input("what is the name of the" + ordinal_numbers(i + 1) + " oldest person in you family: "))
     return family_list
 
-def create_categories():
+def create_categories(): #creates the different categories of food
     food = {}
     categories_list = []
-    print("The number and names of the categories can not be changed ")
+    print("The number and names of the categories can not be changed.")
     number_categories = int(input("How many categories of food do you eat: "))
     for i in range(0, number_categories):
         categories_list.append(input("what is the name of the" + ordinal_numbers(i + 1) + " most varied category: "))
@@ -33,7 +35,7 @@ def create_categories():
         food[categories_list[i]] = {}
     return food
 
-def add_foods(food, family_list):
+def add_foods(food, family_list): #adds food with nutrients, ratings, and corresponding foods
     categories_list = list(food.keys())
     family_ratings = {}
 
@@ -84,13 +86,12 @@ def add_foods(food, family_list):
     print("")
     return food
 
-def choose_dish(food_list, prob_list):
+def choose_dish(food_list, prob_list): #chooses a dish when multiple probabilities are given
     for i in range (0,len(prob_list)):
-        if (numpy.random.binomial(1, prob_list[i]/sum(prob_list[i:])) == 1):
+        if numpy.random.binomial(1, prob_list[i] / sum(prob_list[i:])) == 1:
             return food_list[i]
-            break
 
-def alterProb(food_nutrient, target, prob, is_calorie):
+def alter_prob(food_nutrient, target, prob, is_calorie, dish_nutrients): #gives likelihood of a food being chosen based on distance from recommended nutrients
     if target < 1:
         target = 1
     diff = abs(target - food_nutrient)
@@ -98,46 +99,59 @@ def alterProb(food_nutrient, target, prob, is_calorie):
     if is_calorie:
         diff_percent *= 2
     multiplier = 1 - diff_percent
-    #return (prob * multiplier)
+
+    totalnutrient = 0
+
+    for i in dish_nutrients:
+        totalnutrient += i
+
+    return prob * multiplier * (totalnutrient / len(dish_nutrients))
     
-def equalizeAverage(l):
+def equalize_average(l): #takes a list and make it have an average of 1
     equalized_list = []
     average = sum(l) / len(l)
     for i in range(0, len(l)):
         equalized_list.append(l[i]/average)
+    return equalized_list
         
    
-def getRatings(food, family_list):
+def get_ratings(food, family_list): #gets all the ratings into a 2d list with each row being all of a person's ratings
     ratings = []
     for i in range(0, len(family_list)):
         ratings.append([])
         for j in food:
             for k in food.get(j):
-                ratings[i].append(food.get(j).get(k)[2].get(family_list[i]))
+                ratings[i].append(food.get(j).get(k)[3].get(family_list[i]))
     return ratings
 
-def putRatings(food, family_list, ratings):
+def put_ratings(food, family_list, ratings): #Puts adjusted ratings back into the dictionary
     for i in range(0, len(family_list)):
         for j in food:
             for k in food.get(j):
-                food.get(j).get(k)[2].get(family_list[i]) = ratings[0]
+                food.get(j).get(k)[3][i] = ratings[0]
                 ratings.pop(0)
     return food
 
-def equalizeRatings(food, family_list):
+def equalize_ratings(food, family_list): #Calls get_ratings, put_ratings, and equalize_average
 
-    ratings = getRatings(food, family_list)
+    ratings = get_ratings(food, family_list)
 
     for i in range(0,len(ratings)):
-        ratings[i] = equalizeAverage(ratings[i])
-    putRatings(food,family_list,ratings)
+        ratings[i] = equalize_average(ratings[i])
+    put_ratings(food, family_list, ratings)
 
-    pass
-                
-        
+def adjust_ratings(food,ratings,family_list,chosen_dishes_list):
+    for i in chosen_dishes_list:
+        for j in range(0, len(family_list)):
+            for k in food:
+                dish_ratings = food(k).get(i)[2].get(family_list[i])
+                average_rating = average(dish_ratings)
+                for l in range(0,)
+    return food
 
 
-def set_category_weights(food, nutrient):
+
+def set_category_weights(food, nutrient): #Decides what percentage of each nutrient should be taken from a given category
     
     category_nutrients = {}
     nutrient_list = ["Calories","Carbs","Protein","Fat"]
@@ -158,8 +172,8 @@ def set_category_weights(food, nutrient):
     total_nutrient_sum = 0
 
     for i in list(category_nutrients.keys()):
-        category_nutrients[i] = [(category_nutrients[i][0]/category_nutrients[i][1])]
-        total_nutrient_sum += category_nutrients[i][0]
+        category_nutrients[i] = [(category_nutrients.get(i)[0]/category_nutrients.get(i)[1])]
+        total_nutrient_sum += category_nutrients.get(i)[0]
 
     category_weight_list = []
 
@@ -168,7 +182,7 @@ def set_category_weights(food, nutrient):
 
     return category_weight_list
     
-def create_weekly_meal():
+def create_weekly_meal(): #calls other functions to create the weeklu meal.
 
     for i in range (0, len(categories_list)):
         for j in list(food.get(categories_list[i]).keys()):
