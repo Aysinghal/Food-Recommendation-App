@@ -13,7 +13,7 @@ def ordinal_numbers(i): #creates numbered list
     else:
         return " " + str(i) + "th "
 
-def print_list(l): #prints list in nice arrangement with numbers for each option
+def print_list(l): #prints list in nice arrangement with numbers for each  option
     for i in range(0, len(l)):
         print(str(i) + " : " + l[i])
 
